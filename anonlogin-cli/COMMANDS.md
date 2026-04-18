@@ -14,20 +14,17 @@ go install .
 
 ## Configuration
 
-Before using the CLI, point it at your instance:
-
-```bash
-anonlogin config set issuer https://anonlog.in
-```
-
 Settings are stored in `~/.config/anonlogin/config.json`. Tokens are stored in the
 OS keychain where available, with a file fallback at
 `~/.config/anonlogin/tokens.json`.
 
-| Config key | Description |
-|------------|-------------|
-| `issuer` | Base URL of the anonlogind instance |
-| `client_id` | OAuth client ID for the CLI (optional; defaults to `anonlogin-cli`) |
+| Config key | Default | Description |
+|------------|---------|-------------|
+| `issuer` | `https://anonlog.in` | Base URL of the anonlogind instance |
+| `client_id` | `anonlogin-cli` | OAuth client ID for the CLI |
+
+Override a value with `anonlogin config set <key> <value>` if you are running a
+self-hosted instance.
 
 ---
 
@@ -156,7 +153,8 @@ Checks performed:
 Persist a configuration value.
 
 ```bash
-anonlogin config set issuer https://anonlog.in
+# Override the issuer when using a self-hosted instance
+anonlogin config set issuer https://my-instance.example.com
 anonlogin config set client_id my-cli-client
 ```
 

@@ -15,9 +15,6 @@ go install .
 ## Quick start
 
 ```bash
-# Point the CLI at your instance
-anonlogin config set issuer https://anonlog.in
-
 # Sign in — opens a browser URL with a one-time code
 anonlogin login
 
