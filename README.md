@@ -1,6 +1,6 @@
 # anonlogin examples
 
-Example projects showing how to integrate [anonlogin](https://github.com/anonlog/anonlogin)
+Example projects showing how to integrate [anonlogin](https://anonlog.in)
 as an identity provider.
 
 ## Examples

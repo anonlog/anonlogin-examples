@@ -1,6 +1,6 @@
 # Next.js + anonlogin OIDC example
 
-A minimal Next.js 15 app that signs users in via [anonlogin](https://github.com/anonlog/anonlogin)
+A minimal Next.js 15 app that signs users in via [anonlogin](https://anonlog.in)
 using Auth.js (NextAuth v5) and the OpenID Connect authorization code flow with PKCE.
 
 ## What it demonstrates

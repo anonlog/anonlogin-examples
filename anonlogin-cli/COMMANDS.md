@@ -315,14 +315,14 @@ New signing key: 01HNEW...
 Old key 01HOLD... retained in JWKS for grace period.
 ```
 
-See the server's [backup and restore guide](https://github.com/anonlog/anonlogin/blob/main/docs/backup-restore.md) for key rotation guidance.
+See the [backup and restore guide](https://anonlog.in/dashboard/docs) for key rotation guidance.
 
 ---
 
 ### `anonlogin invite`
 
 Manage registration invite codes. Requires invite-admin privileges (see
-`INVITE_ADMINS` in the server's [configuration docs](https://github.com/anonlog/anonlogin/blob/main/docs/configuration.md)).
+`INVITE_ADMINS` — see your instance's configuration for details.
 
 #### `anonlogin invite create`
 
