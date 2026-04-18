@@ -315,8 +315,6 @@ New signing key: 01HNEW...
 Old key 01HOLD... retained in JWKS for grace period.
 ```
 
-See the [backup and restore guide](https://anonlog.in/dashboard/docs) for key rotation guidance.
-
 ---
 
 ### `anonlogin invite`
