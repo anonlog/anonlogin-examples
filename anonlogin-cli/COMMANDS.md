@@ -450,3 +450,40 @@ curl -s \
   -H "Authorization: Bearer ak_live_anon_ak1abc12_<secret>" \
   https://anonlog.in/v1/api-keys
 ```
+
+## Driving the device flow without the CLI
+
+You can replicate what the CLI does from any language or shell script:
+
+```bash
+ISSUER=https://anonlog.in
+
+# 1. Request a device code
+RESPONSE=$(curl -s -X POST "$ISSUER/device/code" \
+  -d "client_id=anonlogin-cli&scope=openid+profile+offline_access")
+
+DEVICE_CODE=$(echo "$RESPONSE" | jq -r .device_code)
+USER_CODE=$(echo "$RESPONSE"   | jq -r .user_code)
+INTERVAL=$(echo "$RESPONSE"    | jq -r .interval)
+
+echo "Go to: $ISSUER/device/activate?user_code=$USER_CODE"
+
+# 2. Poll until approved (respect the interval)
+while true; do
+  sleep "$INTERVAL"
+  TOKEN_RESPONSE=$(curl -s -X POST "$ISSUER/device/token" \
+    -d "grant_type=urn:ietf:params:oauth:grant-type:device_code" \
+    -d "device_code=$DEVICE_CODE" \
+    -d "client_id=anonlogin-cli")
+
+  ERROR=$(echo "$TOKEN_RESPONSE" | jq -r '.error // empty')
+  if [ -z "$ERROR" ]; then
+    echo "Access token:"
+    echo "$TOKEN_RESPONSE" | jq -r .access_token
+    break
+  elif [ "$ERROR" != "authorization_pending" ]; then
+    echo "Error: $ERROR"
+    break
+  fi
+done
+```
