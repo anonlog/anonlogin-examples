@@ -9,6 +9,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       issuer: process.env.AUTH_ANONLOGIN_ISSUER ?? "https://anonlog.in",
       clientId: process.env.AUTH_ANONLOGIN_ID,
       clientSecret: process.env.AUTH_ANONLOGIN_SECRET,
+      authorization: { params: { scope: "openid profile" } },
+      checks: ["pkce", "state"],
       // anonlogin returns the username in preferred_username
       profile(profile) {
         return {
