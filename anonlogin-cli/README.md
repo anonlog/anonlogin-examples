@@ -30,5 +30,4 @@ anonlogin api-key create --name ci-deploy --scope api:read,api:write
 anonlogin api-key revoke <id>
 ```
 
-See [docs/cli.md](https://github.com/anonlog/anonlogin/blob/main/docs/cli.md)
-in the main repo for the full command reference.
+See [COMMANDS.md](./COMMANDS.md) for the full command reference.
