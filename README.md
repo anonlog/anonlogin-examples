@@ -7,8 +7,9 @@ as an identity provider.
 
 | Directory | What it shows |
 |-----------|--------------|
+| [`anonlogin-cli/`](./anonlogin-cli/) | First-party CLI — device flow login, token management, management API |
 | [`nextjs-oidc/`](./nextjs-oidc/) | Next.js app using Auth.js with anonlogin as an OIDC provider |
-| [`cli/`](./cli/) | Using the `anonlogin` CLI to authenticate and call the management API |
+| [`cli/`](./cli/) | Raw shell examples — device flow and API calls without the CLI |
 
 ## Prerequisites
 

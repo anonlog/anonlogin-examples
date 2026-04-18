@@ -1,0 +1,34 @@
+# anonlogin CLI
+
+Command-line client for [anonlog.in](https://anonlog.in). Authenticates via the
+OAuth 2.0 Device Authorization Grant (RFC 8628), stores tokens in the OS keychain,
+and wraps the management API with typed subcommands.
+
+## Install
+
+```bash
+git clone git@github.com:anonlog/anonlogin-examples.git
+cd anonlogin-examples/anonlogin-cli
+go install .
+```
+
+## Quick start
+
+```bash
+# Point the CLI at your instance
+anonlogin config set issuer https://anonlog.in
+
+# Sign in — opens a browser URL with a one-time code
+anonlogin login
+
+anonlogin whoami
+anonlogin token print        # prints a fresh JWT to stdout
+
+# API key management
+anonlogin api-key list
+anonlogin api-key create --name ci-deploy --scope api:read,api:write
+anonlogin api-key revoke <id>
+```
+
+See [docs/cli.md](https://github.com/anonlog/anonlogin/blob/main/docs/cli.md)
+in the main repo for the full command reference.
