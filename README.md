@@ -12,13 +12,5 @@ as an identity provider.
 
 ## Prerequisites
 
-You need a running anonlogin instance. You can run one locally:
-
-```bash
-git clone git@github.com:anonlog/anonlogin.git
-cd anonlogin
-cp .env.example .env   # fill in BASE_URL and generated secrets
-make up                # starts Postgres + anonlogind on :8080
-```
-
-Or point the examples at any existing instance (e.g. `https://anonlog.in`).
+You need an [anonlog.in](https://anonlog.in) account. Create one at
+[anonlog.in](https://anonlog.in) and use that instance for all examples.
