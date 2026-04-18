@@ -34,10 +34,12 @@ cp .env.local.example .env.local
 Edit `.env.local`:
 
 ```bash
-AUTH_ANONLOGIN_ISSUER=https://your-instance.example.com
 AUTH_ANONLOGIN_ID=cid_your_client_id
 AUTH_ANONLOGIN_SECRET=cs_your_client_secret
 AUTH_SECRET=$(openssl rand -base64 32)
+
+# Only needed when using a self-hosted instance (defaults to https://anonlog.in)
+# AUTH_ANONLOGIN_ISSUER=https://your-instance.example.com
 ```
 
 ### 3. Install and run

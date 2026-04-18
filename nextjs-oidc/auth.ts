@@ -6,7 +6,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       id: "anonlogin",
       name: "anonlog.in",
       type: "oidc",
-      issuer: process.env.AUTH_ANONLOGIN_ISSUER,
+      issuer: process.env.AUTH_ANONLOGIN_ISSUER ?? "https://anonlog.in",
       clientId: process.env.AUTH_ANONLOGIN_ID,
       clientSecret: process.env.AUTH_ANONLOGIN_SECRET,
       // anonlogin returns the username in preferred_username
