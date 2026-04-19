@@ -8,7 +8,7 @@ using Auth.js (NextAuth v5) and the OpenID Connect authorization code flow with 
 - Configuring Auth.js with a custom OIDC provider pointed at your anonlogin instance
 - Server-side session access with `auth()` in React Server Components
 - A protected page that redirects unauthenticated users to sign-in
-- Reading `preferred_username` and `sub` from the OIDC token
+- Reading the `sub` (anonymous stable identifier) from the OIDC token
 
 ## Setup
 
@@ -20,7 +20,7 @@ In your anonlogin dashboard at `/dashboard/clients`, click **Register a new clie
 |-------|-------|
 | Application name | `Next.js example` (or anything) |
 | Redirect URI | `http://localhost:3000/api/auth/callback/anonlogin` |
-| Scopes | `openid profile` |
+| Scopes | `openid` |
 | Public client | Leave unchecked (confidential) |
 
 Copy the `client_id` and `client_secret` shown after registration.

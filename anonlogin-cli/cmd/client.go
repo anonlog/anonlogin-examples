@@ -99,9 +99,9 @@ func newClientCreateCmd() *cobra.Command {
 			if len(redirectURIs) == 0 {
 				return fmt.Errorf("--redirect-uri is required (can be specified multiple times)")
 			}
-			if len(scopes) == 0 {
-				scopes = []string{"openid", "profile"}
-			}
+		if len(scopes) == 0 {
+			scopes = []string{"openid"}
+		}
 			cfg, err := loadConfig()
 			if err != nil {
 				return err
@@ -171,7 +171,7 @@ func newClientCreateCmd() *cobra.Command {
 	}
 	cmd.Flags().StringVarP(&name, "name", "n", "", "Application name (required)")
 	cmd.Flags().StringArrayVarP(&redirectURIs, "redirect-uri", "r", nil, "Redirect URI (can repeat)")
-	cmd.Flags().StringArrayVarP(&scopes, "scope", "s", nil, "Scope (can repeat; default: openid profile)")
+	cmd.Flags().StringArrayVarP(&scopes, "scope", "s", nil, "Scope (can repeat; default: openid)")
 	cmd.Flags().BoolVar(&isPublic, "public", false, "Register as a public client (PKCE only, no secret)")
 	cmd.Flags().StringVar(&subjectType, "subject-type", "", "Subject type: public (default) or pairwise")
 	cmd.Flags().StringVar(&sectorIdentifier, "sector-identifier", "", "Pairwise sector identifier hostname")

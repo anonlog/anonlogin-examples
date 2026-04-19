@@ -10,8 +10,7 @@ export default async function Home() {
       {session ? (
         <>
           <p>
-            Signed in as <strong>{session.user?.name}</strong>
-            {" "}(sub: <code>{session.user?.id}</code>)
+            Signed in — sub: <code>{session.user?.id}</code>
           </p>
           <p>
             <a href="/profile">View profile page (server-side protected)</a>

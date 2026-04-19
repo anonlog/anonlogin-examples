@@ -19,10 +19,6 @@ export default async function ProfilePage() {
             <th style={th}>Value</th>
           </tr>
           <tr>
-            <td style={td}>Username</td>
-            <td style={td}><code>{session.user?.name}</code></td>
-          </tr>
-          <tr>
             <td style={td}>Subject (sub)</td>
             <td style={td}><code>{session.user?.id}</code></td>
           </tr>

@@ -41,7 +41,7 @@ func loginDevice(cfg *CLIConfig) error {
 	// Step 1: Request device and user codes.
 	form := url.Values{
 		"client_id": {cfg.ClientID},
-		"scope":     {"openid profile offline_access api:read api:write"},
+		"scope":     {"openid offline_access api:read api:write"},
 	}
 	resp, err := http.PostForm(cfg.IssuerURL+"/device/code", form)
 	if err != nil {

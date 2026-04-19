@@ -96,7 +96,7 @@ Output:
 ```
 Issuer:  https://anonlog.in
 Subject: 01HXYZ...
-Scopes:  openid profile offline_access api:read api:write
+Scopes:  openid offline_access api:read api:write
 Expires: 2024-06-01 12:10:00 UTC (in 9m)
 ```
 
@@ -269,7 +269,7 @@ anonlogin client create --name <name> --redirect-uri <uri> [flags]
 |------|---------|-------------|
 | `-n, --name` | (required) | Display name shown on the consent screen. |
 | `-r, --redirect-uri` | (required, repeatable) | Allowed redirect URI. Can be repeated. |
-| `-s, --scope` | `openid profile` | Scope (can repeat; e.g. `-s openid -s profile`). |
+| `-s, --scope` | `openid` | Scope (can repeat; e.g. `-s openid -s offline_access`). |
 | `--public` | `false` | Public client (no secret, PKCE required). |
 | `--subject-type` | `public` | `public` or `pairwise`. Pairwise derives an opaque per-client `sub`. |
 | `--sector-identifier` | _(redirect URI host)_ | Hostname used as the pairwise sector identifier. |
@@ -382,7 +382,7 @@ Output:
 ```
 CLIENT_ID                   NAME                    SCOPES                           GRANTED_AT
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-my-app-a1b2c3d4             My App                  openid profile                   2024-01-01T00:00:00Z
+my-app-a1b2c3d4             My App                  openid                           2024-01-01T00:00:00Z
 ```
 
 #### `anonlogin apps revoke <client_id>`
@@ -413,7 +413,7 @@ Output:
 ```
 REQUEST_ID                  CLIENT_ID                 SCOPES                           CREATED_AT
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-01HXYZ...                   anonlogin-cli               openid profile offline_access api:read api:write   2024-06-01T12:00:00Z
+01HXYZ...                   anonlogin-cli               openid offline_access api:read api:write          2024-06-01T12:00:00Z
 ```
 
 #### `anonlogin grants revoke <request_id>`
@@ -458,7 +458,7 @@ ISSUER=https://anonlog.in
 
 # 1. Request a device code
 RESPONSE=$(curl -s -X POST "$ISSUER/device/code" \
-  -d "client_id=anonlogin-cli&scope=openid+profile+offline_access+api:read+api:write")
+  -d "client_id=anonlogin-cli&scope=openid+offline_access+api:read+api:write")
 
 DEVICE_CODE=$(echo "$RESPONSE" | jq -r .device_code)
 USER_CODE=$(echo "$RESPONSE"   | jq -r .user_code)
