@@ -132,7 +132,7 @@ func runDoctor(cfg *CLIConfig) error {
 	if allOK {
 		fmt.Println("All checks passed.")
 	} else {
-		fmt.Println("Some checks failed. Run 'anonlog login' if not authenticated.")
+		fmt.Println("Some checks failed. Run 'anonlogin login' if not authenticated.")
 	}
 	return nil
 }

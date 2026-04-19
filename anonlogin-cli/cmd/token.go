@@ -34,7 +34,7 @@ func newTokenCmd() *cobra.Command {
 					return fmt.Errorf("not logged in: %w", err)
 				}
 				if ts.RefreshToken == "" {
-					return fmt.Errorf("no refresh token stored (re-login with: anonlog login)")
+					return fmt.Errorf("no refresh token stored (re-login with: anonlogin login)")
 				}
 				cfg, err := loadConfig()
 				if err != nil {

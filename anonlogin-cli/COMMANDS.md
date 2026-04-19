@@ -14,17 +14,20 @@ go install .
 
 ## Configuration
 
+Before using the CLI, point it at your instance:
+
+```bash
+anonlogin config set issuer https://anonlog.in
+```
+
 Settings are stored in `~/.config/anonlogin/config.json`. Tokens are stored in the
 OS keychain where available, with a file fallback at
 `~/.config/anonlogin/tokens.json`.
 
-| Config key | Default | Description |
-|------------|---------|-------------|
-| `issuer` | `https://anonlog.in` | Base URL of the anonlogind instance |
-| `client_id` | `anonlogin-cli` | OAuth client ID for the CLI |
-
-Override a value with `anonlogin config set <key> <value>` if you are running a
-self-hosted instance.
+| Config key | Description |
+|------------|-------------|
+| `issuer` | Base URL of the anonlogind instance |
+| `client_id` | OAuth client ID for the CLI (optional; defaults to `anonlogin-cli`) |
 
 ---
 
@@ -93,7 +96,7 @@ Output:
 ```
 Issuer:  https://anonlog.in
 Subject: 01HXYZ...
-Scopes:  openid profile
+Scopes:  openid profile offline_access api:read api:write
 Expires: 2024-06-01 12:10:00 UTC (in 9m)
 ```
 
@@ -153,8 +156,7 @@ Checks performed:
 Persist a configuration value.
 
 ```bash
-# Override the issuer when using a self-hosted instance
-anonlogin config set issuer https://my-instance.example.com
+anonlogin config set issuer https://anonlog.in
 anonlogin config set client_id my-cli-client
 ```
 
@@ -411,7 +413,7 @@ Output:
 ```
 REQUEST_ID                  CLIENT_ID                 SCOPES                           CREATED_AT
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-01HXYZ...                   anonlogin-cli               openid profile                   2024-06-01T12:00:00Z
+01HXYZ...                   anonlogin-cli               openid profile offline_access api:read api:write   2024-06-01T12:00:00Z
 ```
 
 #### `anonlogin grants revoke <request_id>`
@@ -456,7 +458,7 @@ ISSUER=https://anonlog.in
 
 # 1. Request a device code
 RESPONSE=$(curl -s -X POST "$ISSUER/device/code" \
-  -d "client_id=anonlogin-cli&scope=openid+profile+offline_access")
+  -d "client_id=anonlogin-cli&scope=openid+profile+offline_access+api:read+api:write")
 
 DEVICE_CODE=$(echo "$RESPONSE" | jq -r .device_code)
 USER_CODE=$(echo "$RESPONSE"   | jq -r .user_code)

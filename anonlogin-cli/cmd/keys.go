@@ -36,7 +36,7 @@ a suspected key compromise.`,
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			req, _ := http.NewRequest("POST", cfg.IssuerURL+"/v1/keys/rotate", nil)

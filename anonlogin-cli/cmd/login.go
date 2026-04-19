@@ -41,7 +41,7 @@ func loginDevice(cfg *CLIConfig) error {
 	// Step 1: Request device and user codes.
 	form := url.Values{
 		"client_id": {cfg.ClientID},
-		"scope":     {"openid offline_access api:read api:write"},
+		"scope":     {"openid profile offline_access api:read api:write"},
 	}
 	resp, err := http.PostForm(cfg.IssuerURL+"/device/code", form)
 	if err != nil {
@@ -138,7 +138,7 @@ func pollDeviceToken(cfg *CLIConfig, deviceCode string) (*TokenStore, error) {
 func loginBrowser(cfg *CLIConfig) error {
 	fmt.Println("Browser-based login (Authorization Code + PKCE):")
 	fmt.Printf("  Not yet fully implemented.\n")
-	fmt.Printf("  Try: anonlog login (device flow, default)\n")
+	fmt.Printf("  Try: anonlogin login (device flow, default)\n")
 	_ = cfg
 	return nil
 }

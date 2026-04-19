@@ -39,7 +39,7 @@ func newInviteCreateCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			payload := map[string]interface{}{"note": note}
@@ -96,7 +96,7 @@ func newInviteListCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			req, _ := http.NewRequest("GET", cfg.IssuerURL+"/v1/invites", nil)
@@ -151,7 +151,7 @@ func newInviteDeleteCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			req, _ := http.NewRequest("DELETE", cfg.IssuerURL+"/v1/invites/"+code, nil)

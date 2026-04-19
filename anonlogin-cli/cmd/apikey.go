@@ -37,7 +37,7 @@ func newAPIKeyListCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			req, _ := http.NewRequest("GET", cfg.IssuerURL+"/v1/api-keys", nil)
@@ -111,7 +111,7 @@ func newAPIKeyCreateCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			body := url.Values{
@@ -148,7 +148,7 @@ func newAPIKeyCreateCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&name, "name", "n", "", "Key name (required)")
-	cmd.Flags().StringVarP(&scope, "scope", "s", "api:read", "Space-separated scopes")
+	cmd.Flags().StringVarP(&scope, "scope", "s", "api:read", "Comma-separated scopes")
 	return cmd
 }
 

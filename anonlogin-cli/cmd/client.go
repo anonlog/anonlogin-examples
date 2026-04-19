@@ -37,7 +37,7 @@ func newClientListCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			req, _ := http.NewRequest("GET", cfg.IssuerURL+"/v1/clients", nil)
@@ -108,7 +108,7 @@ func newClientCreateCmd() *cobra.Command {
 			}
 			ts, err := loadTokens()
 			if err != nil || ts.AccessToken == "" {
-				return fmt.Errorf("not logged in; run 'anonlog login' first")
+				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
 			payload := map[string]interface{}{
