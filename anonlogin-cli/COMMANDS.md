@@ -35,20 +35,11 @@ OS keychain where available, with a file fallback at
 
 ### `anonlogin login`
 
-Sign in using the OAuth 2.0 Device Authorization Grant (RFC 8628). This is the
-recommended login method for interactive terminal use.
+Sign in using the OAuth 2.0 Device Authorization Grant (RFC 8628).
 
 ```
-anonlogin login [--browser]
+anonlogin login
 ```
-
-**Flags:**
-
-| Flag | Description |
-|------|-------------|
-| `--browser` | Use browser-based authorization code + PKCE instead of device flow (experimental). |
-
-**Device flow (default):**
 
 1. CLI requests a device code from the server.
 2. Prints an 8-character user code and a URL (e.g. `https://anonlog.in/device/activate`).
@@ -71,14 +62,31 @@ Logged in as 01HXYZ... (expires in 10m)
 
 ### `anonlogin logout`
 
-Clear stored tokens from the keychain (and file fallback).
+Clear stored tokens from the keychain (and file fallback). Does not contact the
+server — to also revoke the underlying OAuth grant, run `anonlogin grants revoke <request_id>`.
 
 ```
 anonlogin logout
 ```
 
-Does not call a server-side revocation endpoint. To revoke the underlying OAuth
-grant use `anonlogin` via the management API or the dashboard.
+---
+
+### `anonlogin me`
+
+Show the identity and scopes of the current credential by calling `GET /v1/me`
+on the server. Works with both access tokens and API keys.
+
+```
+anonlogin me
+```
+
+Output:
+
+```
+Account:     01HXYZ...
+Auth method: access_token
+Scopes:      openid offline_access api:read api:write
+```
 
 ---
 
@@ -99,6 +107,9 @@ Subject: 01HXYZ...
 Scopes:  openid offline_access api:read api:write
 Expires: 2024-06-01 12:10:00 UTC (in 9m)
 ```
+
+Note: the token payload is decoded locally without signature verification.
+Use `anonlogin me` to verify the credential against the server.
 
 ---
 
@@ -427,23 +438,53 @@ anonlogin grants revoke 01HXYZ...
 
 ---
 
+### `anonlogin sessions`
+
+Manage active browser/dashboard web sessions for your account.
+
+#### `anonlogin sessions list`
+
+List all active web sessions.
+
+```
+anonlogin sessions list
+```
+
+Output:
+
+```
+ID                          AMR               IP                CREATED               EXPIRES
+───────────────────────────────────────────────────────────────────────────────────────────────────
+01HXYZ...                   pwd+otp           1.2.3.4           2024-06-01 12:00:00   2024-07-01 12:00:00
+```
+
+#### `anonlogin sessions revoke <id>`
+
+Revoke a specific web session. The browser using that session will be logged out
+on its next request.
+
+```
+anonlogin sessions revoke 01HXYZ...
+```
+
+---
+
 ## Scripting
 
 The CLI is designed to be scriptable. Use `anonlogin token print` to get a bearer
 token for `curl` or other HTTP clients:
 
 ```bash
-# List sessions via API
+# List and revoke web sessions directly
+anonlogin sessions list
+anonlogin sessions revoke 01HXYZ...
+
+# Use anonlogin token print for curl scripting
 curl -s \
   -H "Authorization: Bearer $(anonlogin token print)" \
   https://anonlog.in/v1/sessions | jq .
 
-# Revoke a session
-curl -s -X DELETE \
-  -H "Authorization: Bearer $(anonlogin token print)" \
-  https://anonlog.in/v1/sessions/01HXYZ...
-
-# Use an API key instead (no CLI required)
+# Use an API key instead of the CLI (no login required)
 curl -s \
   -H "Authorization: Bearer ak_live_anon_ak1abc12_<secret>" \
   https://anonlog.in/v1/api-keys

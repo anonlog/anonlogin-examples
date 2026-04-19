@@ -56,17 +56,24 @@ func newClientListCmd() *cobra.Command {
 				fmt.Println("No registered clients.")
 				return nil
 			}
-			fmt.Printf("%-24s  %-20s  %-10s  %s\n", "CLIENT_ID", "NAME", "TYPE", "CREATED")
-			fmt.Println(strings.Repeat("─", 80))
+			fmt.Printf("%-24s  %-20s  %-14s  %-24s  %s\n", "CLIENT_ID", "NAME", "TYPE", "SCOPES", "CREATED")
+			fmt.Println(strings.Repeat("─", 95))
 			for _, c := range clients {
 				clientType := "confidential"
 				if p, _ := c["is_public"].(bool); p {
 					clientType = "public"
 				}
-				fmt.Printf("%-24s  %-20s  %-10s  %s\n",
+				scopesRaw, _ := c["scopes"].([]interface{})
+				scopeStrs := make([]string, len(scopesRaw))
+				for i, s := range scopesRaw {
+					scopeStrs[i], _ = s.(string)
+				}
+				scopes := strings.Join(scopeStrs, " ")
+				fmt.Printf("%-24s  %-20s  %-14s  %-24s  %s\n",
 					stringField(c, "client_id"),
 					stringField(c, "name"),
 					clientType,
+					scopes,
 					stringField(c, "created_at"),
 				)
 			}

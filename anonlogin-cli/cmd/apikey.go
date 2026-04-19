@@ -75,19 +75,24 @@ func newAPIKeyListCmd() *cobra.Command {
 				fmt.Println("No active API keys.")
 				return nil
 			}
-			fmt.Printf("%-26s  %-20s  %-30s  %s\n", "ID", "NAME", "SCOPES", "CREATED")
-			fmt.Println(strings.Repeat("─", 90))
+			fmt.Printf("%-26s  %-14s  %-20s  %-24s  %-20s  %s\n", "ID", "PREFIX", "NAME", "SCOPES", "CREATED", "LAST USED")
+			fmt.Println(strings.Repeat("─", 115))
 			for _, k := range keys {
 				id := stringField(k, "id")
+				prefix := stringField(k, "prefix")
 				name := stringField(k, "name")
 				created := stringField(k, "created_at")
+				lastUsed := stringField(k, "last_used_at")
+				if lastUsed == "" {
+					lastUsed = "—"
+				}
 				scopesRaw, _ := k["scopes"].([]interface{})
 				scopeStrs := make([]string, len(scopesRaw))
 				for i, s := range scopesRaw {
 					scopeStrs[i], _ = s.(string)
 				}
 				scopes := strings.Join(scopeStrs, " ")
-				fmt.Printf("%-26s  %-20s  %-30s  %s\n", id, name, scopes, created)
+				fmt.Printf("%-26s  %-14s  %-20s  %-24s  %-20s  %s\n", id, prefix, name, scopes, created, lastUsed)
 			}
 			return nil
 		},
@@ -148,7 +153,7 @@ func newAPIKeyCreateCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&name, "name", "n", "", "Key name (required)")
-	cmd.Flags().StringVarP(&scope, "scope", "s", "api:read", "Comma-separated scopes")
+	cmd.Flags().StringVarP(&scope, "scope", "s", "api:read", `Space-separated scopes (e.g. "api:read api:write")`)
 	return cmd
 }
 
@@ -226,23 +231,27 @@ func newAuthLogCmd() *cobra.Command {
 				return nil
 			}
 
-			fmt.Printf("%-20s  %-22s  %-18s  %-8s  %s\n", "TIME", "EVENT", "METHOD", "OK", "IP")
-			fmt.Println(strings.Repeat("─", 80))
+			fmt.Printf("%-20s  %-6s  %-18s  %-16s  %s\n", "TIME", "RESULT", "METHOD", "IP", "CLIENT")
+			fmt.Println(strings.Repeat("─", 85))
 			for _, e := range events {
 				ts := stringField(e, "created_at")
 				if t, err := time.Parse(time.RFC3339, ts); err == nil {
 					ts = t.Local().Format("2006-01-02 15:04:05")
 				}
-				okFlag := "✓"
+				result := "ok"
 				if ok, _ := e["success"].(bool); !ok {
-					okFlag = "✗"
+					result = "fail"
 				}
-				fmt.Printf("%-20s  %-22s  %-18s  %-8s  %s\n",
+				client := stringField(e, "client_id")
+				if client == "" {
+					client = "—"
+				}
+				fmt.Printf("%-20s  %-6s  %-18s  %-16s  %s\n",
 					ts,
-					stringField(e, "event_type"),
+					result,
 					stringField(e, "auth_method"),
-					okFlag,
 					stringField(e, "ip"),
+					client,
 				)
 			}
 			return nil

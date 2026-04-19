@@ -12,10 +12,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorization: { params: { scope: "openid" } },
       checks: ["pkce", "state"],
       // anonlogin preserves user anonymity — the only stable identifier is sub.
+      // name, email, and image are intentionally unset.
       profile(profile) {
         return {
           id: profile.sub,
-          name: profile.sub,
+          name: undefined,
           email: null,
           image: null,
         };
@@ -26,7 +27,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       if (token.sub) {
         session.user.id = token.sub;
-        session.user.name = token.sub;
       }
       return session;
     },

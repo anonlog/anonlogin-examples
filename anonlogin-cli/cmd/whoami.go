@@ -25,18 +25,22 @@ func newWhoamiCmd() *cobra.Command {
 				return fmt.Errorf("invalid access token: %w", err)
 			}
 
-			fmt.Printf("Issuer:  %s\n", stringField(claims, "iss"))
-			fmt.Printf("Subject: %s\n", stringField(claims, "sub"))
-			fmt.Printf("Scope:   %s\n", ts.Scope)
+		fmt.Printf("Issuer:  %s\n", stringField(claims, "iss"))
+		fmt.Printf("Subject: %s\n", stringField(claims, "sub"))
+		fmt.Printf("Scopes:  %s\n", ts.Scope)
 
-			if exp, ok := claims["exp"].(float64); ok {
-				t := time.Unix(int64(exp), 0)
-				fmt.Printf("Expires: %s", t.Format(time.RFC3339))
-				if time.Now().After(t) {
-					fmt.Print(" (EXPIRED)")
-				}
-				fmt.Println()
+		if exp, ok := claims["exp"].(float64); ok {
+			t := time.Unix(int64(exp), 0)
+			fmt.Printf("Expires: %s", t.Local().Format("2006-01-02 15:04:05 MST"))
+			remaining := time.Until(t)
+			if remaining <= 0 {
+				fmt.Print(" (EXPIRED)")
+			} else {
+				mins := int(remaining.Minutes())
+				fmt.Printf(" (in %dm)", mins)
 			}
+			fmt.Println()
+		}
 			return nil
 		},
 	}

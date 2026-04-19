@@ -18,13 +18,17 @@ go install .
 # Sign in — opens a browser URL with a one-time code
 anonlogin login
 
-anonlogin whoami
-anonlogin token print        # prints a fresh JWT to stdout
+anonlogin me                 # verify identity against the server
+anonlogin whoami             # decode identity from the local token (offline)
+anonlogin token print        # print the raw access token to stdout
 
 # API key management
 anonlogin api-key list
-anonlogin api-key create --name ci-deploy --scope api:read,api:write
+anonlogin api-key create --name ci-deploy --scope "api:read api:write"
 anonlogin api-key revoke <id>
+
+# Sign out (clears local tokens; use 'anonlogin grants revoke' to revoke server-side)
+anonlogin logout
 ```
 
 See [COMMANDS.md](./COMMANDS.md) for the full command reference.

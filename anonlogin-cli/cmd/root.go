@@ -18,6 +18,7 @@ Authenticate, manage tokens, API keys, and OAuth clients from your terminal.`,
 		newLoginCmd(),
 		newLogoutCmd(),
 		newWhoamiCmd(),
+		newMeCmd(),
 		newTokenCmd(),
 		newDoctorCmd(),
 		newConfigCmd(),
@@ -28,6 +29,7 @@ Authenticate, manage tokens, API keys, and OAuth clients from your terminal.`,
 		newInviteCmd(),
 		newAppsCmd(),
 		newGrantsCmd(),
+		newSessionsCmd(),
 	)
 	return root
 }

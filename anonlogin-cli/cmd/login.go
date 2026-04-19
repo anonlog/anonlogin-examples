@@ -13,24 +13,17 @@ import (
 )
 
 func newLoginCmd() *cobra.Command {
-	var browser bool
-
-	c := &cobra.Command{
+	return &cobra.Command{
 		Use:   "login",
-		Short: "Sign in to anonlog.in (default: device flow)",
+		Short: "Sign in to anonlog.in via the device authorization flow (RFC 8628)",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			cfg, err := loadConfig()
 			if err != nil {
 				return err
 			}
-			if browser {
-				return loginBrowser(cfg)
-			}
 			return loginDevice(cfg)
 		},
 	}
-	c.Flags().BoolVar(&browser, "browser", false, "Use Authorization Code + PKCE via loopback browser redirect")
-	return c
 }
 
 // loginDevice implements the RFC 8628 device authorization flow.
@@ -131,16 +124,6 @@ func pollDeviceToken(cfg *CLIConfig, deviceCode string) (*TokenStore, error) {
 		ts.ExpiresIn = int(v)
 	}
 	return ts, nil
-}
-
-// loginBrowser implements Authorization Code + PKCE via a loopback listener.
-// This is a stub — full implementation in phase 3 polish.
-func loginBrowser(cfg *CLIConfig) error {
-	fmt.Println("Browser-based login (Authorization Code + PKCE):")
-	fmt.Printf("  Not yet fully implemented.\n")
-	fmt.Printf("  Try: anonlogin login (device flow, default)\n")
-	_ = cfg
-	return nil
 }
 
 func stringField(m map[string]interface{}, key string) string {

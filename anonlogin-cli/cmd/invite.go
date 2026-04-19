@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -42,16 +44,15 @@ func newInviteCreateCmd() *cobra.Command {
 				return fmt.Errorf("not logged in; run 'anonlogin login' first")
 			}
 
-			payload := map[string]interface{}{"note": note}
+			form := url.Values{"note": {note}}
 			if expiresInDays > 0 {
-				payload["expires_in_days"] = expiresInDays
+				form.Set("expires_in_days", strconv.Itoa(expiresInDays))
 			}
-			bodyBytes, _ := json.Marshal(payload)
 
 			req, _ := http.NewRequest("POST", cfg.IssuerURL+"/v1/invites",
-				strings.NewReader(string(bodyBytes)))
+				strings.NewReader(form.Encode()))
 			req.Header.Set("Authorization", "Bearer "+ts.AccessToken)
-			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			resp, err := http.DefaultClient.Do(req)
 			if err != nil {

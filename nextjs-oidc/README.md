@@ -9,6 +9,7 @@ using Auth.js (NextAuth v5) and the OpenID Connect authorization code flow with 
 - Server-side session access with `auth()` in React Server Components
 - A protected page that redirects unauthenticated users to sign-in
 - Reading the `sub` (anonymous stable identifier) from the OIDC token
+- anonlogin returns only `sub`; this example intentionally leaves `user.name`, `user.email`, and `user.image` unset to preserve anonymity
 
 ## Setup
 
